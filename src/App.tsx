@@ -1,13 +1,19 @@
-
+import { Route, Routes } from "react-router-dom";
+import Workspace from "./pages/workspace/Workspace";
+import RootLayout from "./pages/layout/RootLayout";
+import Header from "./pages/home/Header";
 
 function App() {
-  
-
   return (
     <>
-    <h1 className="font-bold text-3xl bg-light-blue">Hello world</h1>
+      <Routes>
+        <Route path="/" element={<RootLayout />}>
+          <Route path="/" element={<Header />} />
+          <Route path="/workspace" element={<Workspace />} />
+        </Route>
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
