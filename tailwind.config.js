@@ -9,6 +9,9 @@ export default {
       colors:{
         'light-blue': "#8d6bff",
         'dark-blue': "#6c47ff",
+      },
+      gridTemplateColumns: {
+        'auto-fill' : 'repeat(auto-fit, 214px)'
       }
     },
   },
