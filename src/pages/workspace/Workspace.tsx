@@ -1,30 +1,13 @@
-import { GoPencil } from "react-icons/go";
-import TableContent from "../../components/TableContent";
 import { FaRegUser } from "react-icons/fa6";
+import BoardList from "../../components/BoardList";
 
-import CreateTableButton from "../../components/CreateTableButton";
+import Title from "../../components/Title";
 
 function Workspace() {
   return (
     <main className="mt-10">
-      <div className="flex border-b-[1px] pb-5">
-        <div className="me-3 text-white text-bold text-3xl bg-blue-500 h-16 w-16 rounded-lg flex items-center justify-center">
-          T
-        </div>
-        <div>
-          <p className="font-bold text-lg">
-            Trello Workspace
-            <button
-              type="button"
-              className="ms-2 align-middle hover:bg-gray-300 p-1 rounded-md"
-            >
-              <span>
-                <GoPencil />
-              </span>
-            </button>
-          </p>
-        </div>
-      </div>
+      {/* HEADING */}
+      <Title />
       {/* YOUR TABLES */}
       <div className="my-3 flex">
         <span className="me-2">
@@ -32,15 +15,15 @@ function Workspace() {
         </span>
         <p className="font-bold">Your tables</p>
       </div>
-      <div className="grid grid-cols-6">
-        <TableContent />
-        <TableContent />
-        <TableContent />
-        <TableContent />
-        <TableContent />
-        <TableContent />
-        <CreateTableButton />
-      </div>
+      <BoardList>
+        <BoardList.ListItem>
+          <span className="text-white font-bold">My trello</span>
+        </BoardList.ListItem>
+        <BoardList.ListItem>
+          <span className="text-white font-bold">My trello</span>
+        </BoardList.ListItem>
+        <BoardList.AddButton>Add Table</BoardList.AddButton>
+      </BoardList>
     </main>
   );
 }

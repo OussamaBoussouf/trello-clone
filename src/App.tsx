@@ -1,10 +1,9 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Workspace from "./pages/workspace/Workspace";
 import RootLayout from "./pages/layout/RootLayout";
 import Header from "./pages/home/Header";
 import RelloBoard from "./pages/rello-board/RelloBoard";
-import { SignedIn, useUser } from "@clerk/clerk-react";
-import React from "react";
+import { useUser } from "@clerk/clerk-react";
 
 type AuthProps = {
   children: JSX.Element;
