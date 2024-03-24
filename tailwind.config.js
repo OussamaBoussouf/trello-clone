@@ -3,6 +3,15 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      keyframes:{
+        scale:{
+          '0%': {scale: '0'},
+          '100%': {width: '1'}
+        }
+      },
+      animation:{
+        scale: 'scale 500ms ease-in-out'
+      },
       fontFamily:{
         'poppins': ['Poppins', "sans-serif"]
       },
@@ -11,7 +20,7 @@ export default {
         'dark-blue': "#6c47ff",
       },
       gridTemplateColumns: {
-        'auto-fill' : 'repeat(auto-fit, 214px)'
+        'auto-fill' : 'repeat(auto-fill, minmax(214px, 1fr))'
       }
     },
   },
