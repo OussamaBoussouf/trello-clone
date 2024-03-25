@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import RootLayout from "./pages/layout/RootLayout";
 import Header from "./pages/home/Header";
-import RelloBoard from "./pages/rello-board/RelloBoard";
 import { useUser } from "@clerk/clerk-react";
-import Board from "./pages/workspace/Board";
+import Board from "./pages/board/Board";
+import Workspace from "./pages/workspace/Workspace";
 
 type AuthProps = {
   children: JSX.Element;
@@ -21,7 +21,7 @@ function App() {
         <Route path="/" element={<RootLayout />}>
           <Route path="/" element={<Header />} />
           <Route
-            path="/workspace"
+            path="/board"
             element={
               <AuthRequired>
                 <Board/>
@@ -29,10 +29,10 @@ function App() {
             }
           />
           <Route
-            path="/workspace/rello-board"
+            path="/board/workspace/:id"
             element={
               <AuthRequired>
-                <RelloBoard />
+                <Workspace/>
               </AuthRequired>
             }
           />

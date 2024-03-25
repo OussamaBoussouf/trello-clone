@@ -6,6 +6,7 @@ export const useClickOutside = (
   const menu = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handler = (event: MouseEvent) => {
+      console.log('close');
       if (!menu.current?.contains(event.target as Node)) {
         setIsOpen(false);
       }

@@ -21,7 +21,7 @@ function Navbar() {
         <SignedIn>
           <div className="flex items-center">
             <div className="me-5">
-              <Link to="/workspace" className="text-sm text-gray-500 underline underline-offset-2">Go to workspace</Link>
+              <Link to="/board" className="text-sm text-gray-500 underline underline-offset-2">Go to workspace</Link>
             </div>
             <UserButton />
           </div>

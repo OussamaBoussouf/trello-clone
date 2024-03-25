@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { IoClose } from "react-icons/io5";
+import { WorkspaceContext } from "../../context/workspaceContext";
 
 
 type Workspace = {
@@ -20,45 +21,61 @@ export function AddButton({
     workspace,
     setWorkspace,
   }: AddButtonProps) {
+    const {state, dispatch} = useContext(WorkspaceContext);
     const [isOpen, setIsOpen] = useState(false);
     let ref = useClickOutside(setIsOpen);
     const [inputValue, setInputValue] = useState("");
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const colors = [
-        "bg-green-400",
-        "bg-red-500",
-        "bg-orange-500",
-        "bg-amber-500",
-        "bg-emerald-500",
-      ];
+      // const colors = [
+      //   "bg-green-400",
+      //   "bg-red-500",
+      //   "bg-orange-500",
+      //   "bg-amber-500",
+      //   "bg-emerald-500",
+      // ];
   
-      const selectedColor = colors[Math.floor(Math.random() * 5)];
+      // const selectedColor = colors[Math.floor(Math.random() * 5)];
   
-      console.log('RENDER');
-  
-      localStorage.setItem(
-        "workspace",
-        JSON.stringify([
-          ...workspace,
-          {
-            id: workspace.length + 1,
-            title: inputValue,
-            backgroundColor: selectedColor,
-          },
-        ])
-      );
-      setWorkspace([
-        ...workspace,
-        {
-          id: workspace.length + 1,
-          title: inputValue,
-          backgroundColor: selectedColor,
-        },
-      ]);
+      // localStorage.setItem(
+      //   "workspace",
+      //   JSON.stringify([
+      //     ...workspace,
+      //     {
+      //       id: workspace.length + 1,
+      //       title: inputValue,
+      //       backgroundColor: selectedColor,
+      //     },
+      //   ])
+      // );
+      // setWorkspace([
+      //   ...workspace,
+      //   {
+      //     id: workspace.length + 1,
+      //     title: inputValue,
+      //     backgroundColor: selectedColor,
+      //   },
+      // ]);
+      dispatch({
+        type:"addWorkspace",
+        payload: {
+          title: inputValue
+        }
+      })
       setIsOpen(false);
       setInputValue("");
     };
+
+
+    /* 
+      dispatch({
+        type:"addWorkspace",
+        payload:{
+          title: inputValue
+        }
+      })
+    
+    */
   
   
     return (

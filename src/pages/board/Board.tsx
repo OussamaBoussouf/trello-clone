@@ -16,6 +16,7 @@ function Board() {
     ? JSON.parse(dataFromLocalStorage)
     : [];
   const [workspace, setWorkspace] = useState(workspaceList);
+  console.log(workspace);
 
   const handleDelete = (index: number) => {
     const deleteTask = confirm("Do you really want to delete this workspace?");
@@ -26,7 +27,6 @@ function Board() {
     }
   };
 
-  console.log(workspace);
   return (
     <main className="mt-10">
       {/* HEADING */}

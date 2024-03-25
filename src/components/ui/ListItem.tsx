@@ -24,7 +24,7 @@ type Workspace = {
         >
           <IoClose fontSize={20} />
         </button>
-        <Link to="./ream">
+        <Link to={`/board/workspace/${akey}`}>
           <div className={`h-[100px] p-2 ${currentWorkspace.backgroundColor} .backgroundColor} rounded-md`}>
             {children}
           </div>
