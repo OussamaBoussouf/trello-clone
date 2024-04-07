@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { GoPencil } from "react-icons/go";
 import { useClickOutside } from "../hooks/useClickOutside";
 
@@ -8,8 +8,9 @@ function Title() {
     localStorage.getItem("title") || "My space"
   );
   const [inputValue, setInputValue] = useState(heading);
+  const titleMenu = useRef<HTMLDivElement |null> (null);
   const [isOpen, setIsOpen] = useState(false);
-  const titleMenu = useClickOutside(setIsOpen);
+  useClickOutside(titleMenu, () => setIsOpen(false));
 
 
   const handleCancel = () => {

@@ -8,11 +8,11 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="container mx-auto py-5 flex justify-between border-b-[1px]">
+    <nav className="w-full bg-white py-3 px-5 flex justify-between border-b-[1px] fixed top-0">
       <div>
         <a
           href="/"
-          className="font-bold text-2xl text-transparent bg-gradient-to-b bg-clip-text from-cyan-500 to-blue-500"
+          className="font-bold text-xl text-transparent bg-gradient-to-b bg-clip-text from-cyan-500 to-blue-500"
         >
           Rello
         </a>
@@ -30,7 +30,7 @@ function Navbar() {
           <SignInButton mode="modal">
             <button
               type="button"
-              className="bg-light-blue py-2 px-4 rounded-md text-white font-bold border-[1px] border-dark-blue"
+              className="bg-light-blue hover:bg-dark-blue py-2 px-4 rounded-md text-white font-bold border-[1px] border-dark-blue"
             >
               Sign in
             </button>

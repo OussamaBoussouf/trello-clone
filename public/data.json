@@ -1,0 +1,15 @@
+{
+  "workspace": {
+    "1": [
+      { "id": "id_12", "title": "your title", "tasks": ["aaaaaa", "team"] },
+      { "id": "id_13", "title": "some title", "tasks": ["zzzzz"] }
+    ],
+    "2": [],
+    "3": []
+  },
+  "board": [
+    { "id": 1, "title": "workspace1" },
+    { "id": 2, "title": "workspace2" },
+    { "id_": 3, "title": "workspace3" }
+  ]
+}

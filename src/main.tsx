@@ -13,7 +13,7 @@ if (!PUBLISHABLE_KEY) {
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
         <WorkspaceProvider>
@@ -21,5 +21,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </WorkspaceProvider>
       </ClerkProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

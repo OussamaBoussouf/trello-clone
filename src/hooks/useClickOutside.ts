@@ -1,19 +1,15 @@
-import React, {useEffect, useRef } from "react";
+import { useEffect } from "react";
 
-export const useClickOutside = (
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  const menu = useRef<HTMLDivElement>(null);
+export const useClickOutside = (ref: any, callback: () => void) => {
   useEffect(() => {
     const handler = (event: MouseEvent) => {
-      console.log('close');
-      if (!menu.current?.contains(event.target as Node)) {
-        setIsOpen(false);
+      console.log(ref.current);
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback();
       }
     };
     document.addEventListener("mousedown", handler);
 
     return () => document.removeEventListener("mousedown", handler);
-  }, []);
-  return menu;
+  }, [ref, callback]);
 };

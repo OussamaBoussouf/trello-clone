@@ -2,33 +2,38 @@ import { FaRegUser } from "react-icons/fa6";
 import BoardList from "../../components/BoardList";
 
 import Title from "../../components/Title";
-import { useState } from "react";
+import { useContext } from "react";
+import { WorkspaceContext } from "../../context/workspaceContext";
 
-type Workspace = {
-  id: number;
-  title: string;
-  backgroundColor: string;
-};
 
 function Board() {
-  const dataFromLocalStorage = localStorage.getItem("workspace");
-  const workspaceList: Workspace[] = dataFromLocalStorage
-    ? JSON.parse(dataFromLocalStorage)
-    : [];
-  const [workspace, setWorkspace] = useState(workspaceList);
+  const {workspace, dispatch} = useContext(WorkspaceContext);
+  // const dataFromLocalStorage = localStorage.getItem("workspace");
+  // const workspaceList: Workspace[] = dataFromLocalStorage
+  //   ? JSON.parse(dataFromLocalStorage)
+  //   : [];
   console.log(workspace);
 
+  // const handleDelete = (index: number) => {
+  //   const deleteTask = confirm("Do you really want to delete this workspace?");
+  //   if (deleteTask) {
+  //     const availabelTasks = workspace.filter((ele) => ele.id != index);
+  //     localStorage.setItem("workspace", JSON.stringify(availabelTasks));
+  //     setWorkspace(availabelTasks);
+  //   }
+  // };
+
   const handleDelete = (index: number) => {
-    const deleteTask = confirm("Do you really want to delete this workspace?");
-    if (deleteTask) {
-      const availabelTasks = workspace.filter((ele) => ele.id != index);
-      localStorage.setItem("workspace", JSON.stringify(availabelTasks));
-      setWorkspace(availabelTasks);
-    }
-  };
+    dispatch({
+      type:"deleteWorkspace",
+      payload: {
+        index: index
+      }
+    })
+  }
 
   return (
-    <main className="mt-10">
+    <main className="container mx-auto pt-28">
       {/* HEADING */}
       <Title />
       {/* YOUR TABLES */}
@@ -52,7 +57,7 @@ function Board() {
             </BoardList.ListItem>
           ))}
         </>
-        <BoardList.AddButton workspace={workspace} setWorkspace={setWorkspace}>
+        <BoardList.AddButton>
           Add Table
         </BoardList.AddButton>
       </BoardList>

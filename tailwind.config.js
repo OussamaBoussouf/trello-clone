@@ -10,7 +10,10 @@ export default {
         },
       },
       height: {
-        board: "calc(100vh - 73px)",
+        content: "calc(100vh - 57px)",
+      },
+      maxHeight:{
+        content: "calc(100vh - 216px)",
       },
       animation: {
         scale: "scale 500ms ease-in-out",
@@ -21,6 +24,7 @@ export default {
       colors: {
         "light-blue": "#8d6bff",
         "dark-blue": "#6c47ff",
+        "light-gray": "#f1f2f4",
       },
       gridTemplateColumns: {
         "auto-fill": "repeat(auto-fill, minmax(214px, 1fr))",
@@ -35,17 +39,16 @@ export default {
         },
         ".scrollbar-thin": {
           scrollbarWidth: "thin",
-          scrollbarColor: "rgb(31 29 29) white",
         },
         ".scrollbar-webkit": {
           "&::-webkit-scrollbar": {
             width: "8px",
           },
           "&::-webkit-scrollbar-track": {
-            backgroundColor: "green",
+            backgroundColor: "transparent",
           },
           "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "rgb(31 41 55)",
+            backgroundColor: "gray",
             borderRadius: "50px",
             border: "1px solid white",
           },
