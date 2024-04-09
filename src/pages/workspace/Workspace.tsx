@@ -1,126 +1,174 @@
 import Menu from "../../components/Menu";
 import "./Workspace.css";
 import { GoKebabHorizontal } from "react-icons/go";
-import { useContext, useMemo, useState } from "react";
-import { WorkspaceContext } from "../../context/workspaceContext";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
+// import { WorkspaceContext } from "../../context/BoardListContext";
 import { useParams } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import { MdDeleteOutline } from "react-icons/md";
 import AddTaskButton from "../../components/ui/AddTaskButton";
 import InputTitle from "../../components/ui/InputTitle";
 import AddColumnButton from "../../components/ui/AddColumnButton";
+import { BoardListContext } from "../../context/BoardListContext";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import {
+  DndContext,
+  DragOverlay,
+  closestCorners,
+  useSensor,
+  MouseSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { v4 as uuidv4 } from "uuid";
+import { useClickOutside } from "../../hooks/useClickOutside";
+import Column from "../../components/Column";
+import { SortableContext } from "@dnd-kit/sortable";
 
-interface Task {
-  id: any;
-  title: string;
-  tasks: [];
+interface IColumn {
+  id: string;
+  columnTitle: string;
 }
 
 function Workspace() {
-  const { id } = useParams();
+  const { id } = useParams() as { id: string };
+  const [activeColumn, setActiveColumn] = useState(null);
   const [titleIsOpen, setTitleIsOpen] = useState(false);
   const [selectedColumnId, setSelectedColumnId] = useState("");
-  const { workspace, dispatch } = useContext(WorkspaceContext);
-  const currentWorkspace = workspace.find((ele) => ele.id == id);
+  const { columns, dispatchColumn } = useContext(BoardListContext);
+  const [isOpen, setIsOpen] = useState(false);
+  const [inputTitle, setInputTitle] = useState("");
+  // const { workspace, dispatch } = useContext(WorkspaceContext);
+  // const currentWorkspace = workspace.find((ele) => ele.id == id);
 
-  const handleDelete = (columnId: number) => {
-    dispatch({
-      type: "deleteColumn",
+  // const handleDelete = (columnId: number) => {
+  //   dispatch({
+  //     type: "deleteColumn",
+  //     payload: {
+  //       columnId: columnId,
+  //       workspaceId: id,
+  //     },
+  //   });
+  // };
+
+  // const handleUpdateTitle = (
+  //   event: React.KeyboardEvent<HTMLInputElement>
+  // ) => {
+  //   if(event.key == "Enter"){
+  //     setIsOpen(false);
+  //   }
+  // };
+
+  const mouseSensor = useSensor(MouseSensor, {
+    // Require the mouse to move by 10 pixels before activating
+    activationConstraint: {
+      distance: 10,
+    },
+  });
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const sensors = useSensors(mouseSensor);
+  useEffect(() => {
+    if (isOpen) {
+      inputRef.current?.focus();
+    }
+
+    console.log("Effect");
+  }, [isOpen]);
+
+  useClickOutside(inputRef, () => {
+    setIsOpen(false);
+  });
+
+  const handleAddColumn = () => {
+    dispatchColumn({
+      type: "addColumn",
       payload: {
-        columnId: columnId,
-        workspaceId: id,
+        id: id,
+        columnId: uuidv4(),
+        title: columns[id] ? `Column ${columns[id].length + 1}` : "Column 1",
       },
     });
   };
 
+  const handleDragStart = (event) => {
+    const { active } = event;
+
+    if (active.data.current?.type == "column") {
+      console.log(active.id);
+      setActiveColumn(active);
+    }
+  };
+
+  const handleDragEnd = (event) => {
+    const {over, active} = event;
+    if (!over) return;
+
+    if (active.id != over.id && active.data.current?.type == "column") {
+        dispatchColumn({
+          type:"reArrangeColumns",
+          payload: {
+            active: active,
+            over: over,
+            id: id
+          }
+        })
+    }
+    setActiveColumn(null);
+  };
+
+  const handleDragOver = (event) => {
+    
+  };
+
   return (
-    <section className="overflow-x-auto h-content mt-[57px] p-3">
-      <div className="min-w-fit gap-4">
-        <ol className="flex gap-2 min-w-max">
-          <li className="text-[.8rem] px-2 bg-light-gray w-[272px] rounded-xl">
-            <div className="flex items-start justify-between pt-4">
-              <p className="font-bold break-all flex-grow px-3 py-2">
-                Teamazeazeazeazeazeazeazeazeaze
-              </p>
+    <DndContext
+      sensors={sensors}
+      onDragOver={handleDragOver}
+      onDragEnd={handleDragEnd}
+      onDragStart={handleDragStart}
+    >
+      <section className="overflow-x-auto h-content mt-[57px] p-3">
+        <div className="min-w-fit gap-4">
+          <ol className="flex items-start gap-2 min-w-max">
+            <SortableContext items={columns[id]}>
+              {columns[id]?.map((column: IColumn) => (
+                <Column
+                  key={column.id}
+                  workSpaceId={id}
+                  columnId={column.id}
+                  columnTitle={column.columnTitle}
+                />
+              ))}
+            </SortableContext>
+            {/* ADD COLUMN BUTTON */}
+            <div className="w-[275px]">
               <button
                 type="button"
-                className="p-3 hover:bg-gray-300 rounded-md"
+                className="rounded-lg w-full text-gray-600 flex items-center px-3 py-2 bg-gray-50 hover:bg-gray-300"
+                onClick={handleAddColumn}
               >
-                <GoKebabHorizontal size={15} />
+                <FaPlus className="me-2" size="15" />
+                <p className="text-sm">Add a list</p>
               </button>
             </div>
-            <ol className="overflow-y-auto py-2 scrollbar-thin max-h-content mt-1 mb-3 flex flex-col gap-y-2 ">
-              <li className="relative group/item cursor-pointer hover:outline-blue-600 hover:outline-2 hover:outline bg-white break-words shadow-md text-wrap rounded-md px-3 py-2 mx-1">
-                <button type="button" className="hover:bg-gray-200 group-hover/item:visible invisible bg-white p-2 rounded-full absolute top-1 right-1">
-                  <MdDeleteOutline size={18} />
-                </button>
-                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-              </li>
-            </ol>
-          </li>
-
-          {/* ADD COLUMN BUTTON */}
-          <div className="w-[275px]">
-            <button
-              type="button"
-              className="rounded-lg w-full text-gray-600 flex items-center px-3 py-2 bg-gray-50 hover:bg-gray-300"
-            >
-              <FaPlus className="me-2" size="15" />
-              <p className="text-sm">Add a list</p>
-            </button>
-          </div>
-        </ol>
-      </div>
-
-      {/* {currentWorkspace?.allTask.map((ele: Task) => (
-            <div
-              key={ele.id}
-              className="h-[100%] bg-gray-100 rounded-md px-3 py-6"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <InputTitle
-                  workspaceId={id}
-                  columnId={ele.id}
-                  id={selectedColumnId}
-                  isOpen={titleIsOpen}
-                  setIsOpen={setTitleIsOpen}
-                  task={ele}
-                />
-                <Menu>
-                  <Menu.Button />
-                  <Menu.List>
-                    <Menu.Item>
-                      <Menu.UpdateTitleButton
-                        id={ele.id}
-                        onUpdateTitle={(columnId) => {
-                          setTitleIsOpen(true);
-                          setSelectedColumnId(columnId);
-                        }}
-                      />
-                    </Menu.Item>
-                    <Menu.Item>
-                      <Menu.DeleteButton
-                        onDelete={handleDelete}
-                        columnId={ele.id}
-                      />
-                    </Menu.Item>
-                  </Menu.List>
-                </Menu>
-              </div>
-              <ul className="space-y-4 pt-2 h-[92%] scrollbar-thin">
-                {ele.tasks.map((task, index) => (
-                  <li key={index}>
-                    <div className="bg-white text-[.8rem] shadow-md rounded-md p-3">
-                      {task}
-                    </div>
-                  </li>
-                ))}
-                <AddTaskButton workspaceId={id} taskId={ele.id} />
-              </ul>
-            </div>
-          ))}
-          <AddColumnButton columnId={id}/> */}
-    </section>
+          </ol>
+        </div>
+        <DragOverlay>
+          {activeColumn ? (
+            <Column
+              workSpaceId={id}
+              columnId={
+                columns[id][activeColumn.data.current.sortable.index].id
+              }
+              columnTitle={
+                columns[id][activeColumn.data.current.sortable.index]
+                  .columnTitle
+              }
+            />
+          ) : null}
+        </DragOverlay>
+      </section>
+    </DndContext>
   );
 }
 

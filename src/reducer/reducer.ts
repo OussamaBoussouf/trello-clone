@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+
 
 interface WorkspaceAction {
   type: string;
@@ -33,7 +33,7 @@ export function workspaceReducer(state: Workspace[], action: WorkspaceAction) {
         JSON.stringify([
           ...state,
           {
-            id: uuidv4(),
+            id: action.payload.id,
             title: action.payload.title,
             backgroundColor: selectedColor,
           },
@@ -42,7 +42,7 @@ export function workspaceReducer(state: Workspace[], action: WorkspaceAction) {
       const newState = [
         ...state,
         {
-          id: uuidv4(),
+          id: action.payload.id,
           title: action.payload.title,
           backgroundColor: selectedColor,
         },

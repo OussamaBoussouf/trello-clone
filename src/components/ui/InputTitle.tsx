@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { WorkspaceContext } from "../../context/workspaceContext";
+import { WorkspaceContext } from "../../context/BoardListContext";
 import { useClickOutside } from "../../hooks/useClickOutside";
 
 interface Task {
@@ -17,7 +17,14 @@ interface InputTitleProps {
   workspaceId: any;
 }
 
-function InputTitle({ isOpen, setIsOpen, id, task, columnId, workspaceId } : InputTitleProps) {
+function InputTitle({
+  isOpen,
+  setIsOpen,
+  id,
+  task,
+  columnId,
+  workspaceId,
+}: InputTitleProps) {
   const [inputTitle, setInputTitle] = useState("");
 
   const { dispatch } = useContext(WorkspaceContext);
@@ -27,18 +34,17 @@ function InputTitle({ isOpen, setIsOpen, id, task, columnId, workspaceId } : Inp
 
   const handleUpdateTitle = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key == "Enter") {
-        dispatch({
-          type:"updateTitle",
-          payload:{
-            newTitle: inputTitle,
-            columnId: columnId,
-            workspaceId: workspaceId
-          }
-        })
+      dispatch({
+        type: "updateTitle",
+        payload: {
+          newTitle: inputTitle,
+          columnId: columnId,
+          workspaceId: workspaceId,
+        },
+      });
       setIsOpen(false);
     }
   };
-
 
   return (
     <div>

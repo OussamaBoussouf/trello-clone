@@ -3,33 +3,29 @@ import BoardList from "../../components/BoardList";
 
 import Title from "../../components/Title";
 import { useContext } from "react";
-import { WorkspaceContext } from "../../context/workspaceContext";
-
+import { BoardListContext } from "../../context/BoardListContext";
+import { IoClose } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import AddBoardButton from "../../components/ui/AddBoardButton";
 
 function Board() {
-  const {workspace, dispatch} = useContext(WorkspaceContext);
-  // const dataFromLocalStorage = localStorage.getItem("workspace");
-  // const workspaceList: Workspace[] = dataFromLocalStorage
-  //   ? JSON.parse(dataFromLocalStorage)
-  //   : [];
-  console.log(workspace);
+  const { boardList, dispatchBoardList, dispatchColumn } = useContext(BoardListContext);
 
-  // const handleDelete = (index: number) => {
-  //   const deleteTask = confirm("Do you really want to delete this workspace?");
-  //   if (deleteTask) {
-  //     const availabelTasks = workspace.filter((ele) => ele.id != index);
-  //     localStorage.setItem("workspace", JSON.stringify(availabelTasks));
-  //     setWorkspace(availabelTasks);
-  //   }
-  // };
-
-  const handleDelete = (index: number) => {
-    dispatch({
-      type:"deleteWorkspace",
+ 
+  const handleDeleteBoard = (boardId: string) => {
+    dispatchBoardList({
+      type: "deleteBoard",
       payload: {
-        index: index
+        id: boardId
       }
-    })
+    });
+
+    dispatchColumn({
+      type: "deleteColumnSpace",
+      payload: {
+        columnId: boardId
+      }
+    });
   }
 
   return (
@@ -44,7 +40,28 @@ function Board() {
         <p className="font-bold">Your tables</p>
       </div>
       {/* ALL TABLES */}
-      <BoardList>
+      <ul className="grid gap-3 grid-cols-auto-fill">
+        {boardList.map((board) => (
+          <li key={board.id} className="relative origin-top-left overflow-hidden group/item">
+            <div
+              role="button"
+              className="bg-gray-200 group-hover/item:-translate-x-9 p-1 duration-500 rounded-md absolute -right-7 top-2"
+              onClick={() => handleDeleteBoard(board.id)}
+            >
+              <IoClose fontSize={20} />
+            </div>
+            <Link to={`/board/workspace/${board.id}`}>
+              <div
+                className={`h-[100px] p-2 bg-green-400 rounded-md font-bold`}
+              >
+                {board.title}
+              </div>
+            </Link>
+          </li>
+        ))}
+        <AddBoardButton />
+      </ul>
+      {/* <BoardList>
         <>
           {workspace.map((space) => (
             <BoardList.ListItem
@@ -60,7 +77,7 @@ function Board() {
         <BoardList.AddButton>
           Add Table
         </BoardList.AddButton>
-      </BoardList>
+      </BoardList> */}
     </main>
   );
 }

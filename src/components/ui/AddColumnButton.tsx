@@ -1,5 +1,5 @@
 import { useCallback, useContext, useRef, useState } from "react";
-import { WorkspaceContext } from "../../context/workspaceContext";
+import { WorkspaceContext } from "../../context/BoardListContext";
 import { useClickOutside } from "../../hooks/useClickOutside";
 
 function AddColumnButton({ columnId }: { columnId: any }) {

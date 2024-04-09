@@ -1,40 +1,33 @@
-import { useContext, useRef, useState } from "react";
+import { useCallback, useContext, useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { IoClose } from "react-icons/io5";
-// import { WorkspaceContext } from "../../context/BoardListContext";
+import { BoardListContext } from "../../context/BoardListContext";
 import { v4 as uuidv4 } from "uuid";
 
-type Workspace = {
-  id: number;
-  title: string;
-  backgroundColor: string;
-};
+interface IBoardList {
+    id: string;
+    title: string;
+  };
 
-export function AddButton({ children }: { children: string }) {
-  // const { dispatch, dispatchColumn } = useContext(WorkspaceContext);
+function AddBoardButton() {
   const [isOpen, setIsOpen] = useState(false);
+  const {dispatchBoardList} = useContext(BoardListContext);
   const ref = useRef(null);
   useClickOutside(ref, () => setIsOpen(false));
   const [inputValue, setInputValue] = useState("");
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // dispatch({
-    //   type: "addWorkspace",
-    //   payload: {
-    //     title: inputValue,
-    //     id: uuidv4(),
-    //   },
-    // });
-    // dispatchColumn({
-    //   type: "addColumn",
-    //   payload: {
-    //     title: "test",
-    //     id: uuidv4(),
-    //   },
-    // });
+    dispatchBoardList({
+        type: "addBoard",
+        payload: {
+            id: uuidv4(),
+            title: inputValue
+        }
+    });
     setIsOpen(false);
     setInputValue("");
   };
+
 
   return (
     <li className="relative">
@@ -44,7 +37,7 @@ export function AddButton({ children }: { children: string }) {
           onClick={() => setIsOpen(!isOpen)}
           className="cursor-pointer h-[100px] p-2 bg-gray-200 hover:bg-gray-300 rounded-md flex items-center justify-center"
         >
-          <span className="text-sm">{children}</span>
+          <span className="text-sm">Add a board</span>
         </div>
         <div
           ref={ref}
@@ -91,3 +84,5 @@ export function AddButton({ children }: { children: string }) {
     </li>
   );
 }
+
+export default AddBoardButton;
