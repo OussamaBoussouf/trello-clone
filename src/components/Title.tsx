@@ -1,17 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { GoPencil } from "react-icons/go";
+import { useClickOutside } from "../hooks/useClickOutside";
 
-type TitleHead = {
-  title: string;
-};
 
 function Title() {
   const [heading, setHeading] = useState(
     localStorage.getItem("title") || "My space"
   );
   const [inputValue, setInputValue] = useState(heading);
+  const titleMenu = useRef<HTMLDivElement |null> (null);
   const [isOpen, setIsOpen] = useState(false);
-  const titleMenu = useRef<HTMLDivElement>(null);
+  useClickOutside(titleMenu, () => setIsOpen(false));
 
 
   const handleCancel = () => {
@@ -24,17 +23,7 @@ function Title() {
     setHeading(inputValue);
     setIsOpen(false);
   };
-
-  useEffect(() => {
-    const handler = (event: MouseEvent) => {
-      if (!titleMenu.current?.contains(event.target as Node)) {
-        handleCancel();
-      }
-    };
-    document.addEventListener("mousedown", handler);
-
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
+  
 
   return (
     <div className="flex border-b-[1px] pb-5">
@@ -59,7 +48,7 @@ function Title() {
           <form
             className={
               isOpen
-                ? "bg-white space-y-4 absolute z-1 left-[100%] top-6 font-light text-sm rounded-lg shadow-xl p-2"
+                ? "animate-scale origin-top-left bg-white space-y-4 absolute z-1 left-[100%] top-6 font-light text-sm rounded-lg shadow-xl p-2"
                 : "hidden"
             }
           >

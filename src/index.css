@@ -23,6 +23,8 @@
   }
 }
 
+
 body{
-  background-color: #f6f6f2;
+  overflow-y: hidden;
+  /* background-color: #cd5a91; */
 }
