@@ -13,7 +13,10 @@ export default {
         content: "calc(100vh - 57px)",
       },
       maxHeight:{
-        content: "calc(100vh - 216px)",
+        content: "calc(100vh - 210px)",
+      },
+      minHeight:{
+        content: "calc(100vh - 210px)"
       },
       animation: {
         scale: "scale 500ms ease-in-out",

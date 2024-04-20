@@ -68,6 +68,7 @@ export function columnReducer(state: Columns, action: ColumnAction): Columns {
       const newIndex = action.payload.over.data.current?.sortable.index;
       const newArrangement = arrayMove(selectedColumn, oldIndex, newIndex);
       temp[action.payload.id] = newArrangement;
+      localStorage.setItem("columns", JSON.stringify(temp));
       return temp;
     }
 

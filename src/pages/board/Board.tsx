@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import AddBoardButton from "../../components/ui/AddBoardButton";
 
 function Board() {
-  const { boardList, dispatchBoardList, dispatchColumn } = useContext(BoardListContext);
+  const { boardList, dispatchBoardList, dispatchColumn, dispatchTask } = useContext(BoardListContext);
 
  
   const handleDeleteBoard = (boardId: string) => {
@@ -24,6 +24,13 @@ function Board() {
       type: "deleteColumnSpace",
       payload: {
         columnId: boardId
+      }
+    });
+
+    dispatchTask({
+      type: "deleteEntireTaskSpace",
+      payload: {
+        tasksContainerId: boardId
       }
     });
   }

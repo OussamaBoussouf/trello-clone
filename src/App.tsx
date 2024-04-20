@@ -24,7 +24,7 @@ function App() {
             path="/board"
             element={
               <AuthRequired>
-                <Board/>
+                <Board />
               </AuthRequired>
             }
           />
@@ -32,7 +32,7 @@ function App() {
             path="/board/workspace/:id"
             element={
               <AuthRequired>
-                <Workspace/>
+                <Workspace />
               </AuthRequired>
             }
           />
